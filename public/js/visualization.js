@@ -16,7 +16,7 @@ var xAxis = d3.svg.axis()
   .orient("bottom");
 
 var yAxis = d3.svg.axis()
-  .scale(scaleY)
+  .scale(scaleY) 
   .orient("left");
 
 //create svg

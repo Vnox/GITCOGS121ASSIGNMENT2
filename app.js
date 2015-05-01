@@ -138,9 +138,12 @@ function ensureAuthenticatedInstagram(req, res, next) {
 }
 
 
+app.use(express.static(__dirname + '/views/'));
+
 //routes
 app.get('/', function(req, res){
-  res.render('login');
+  //res.sendfile(__dirname + '/views/html/login.html');
+  res.render('login', { user: req.user });
 });
 
 app.get('/login', function(req, res){
@@ -148,8 +151,9 @@ app.get('/login', function(req, res){
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', {user: req.user});
+  res.render('account', { user: req.user });
 });
+
 
 app.get('/igphotos', ensureAuthenticatedInstagram, function(req, res){
   var query  = models.User.where({ ig_id: req.user.ig_id });
@@ -219,6 +223,12 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('visualization');
 }); 
+
+app.get('/myd3js', ensureAuthenticatedInstagram, function (req, res){
+  res.render('myd3js');
+}); 
+
+
 
 
 app.get('/c3visualization', ensureAuthenticatedInstagram, function (req, res){
