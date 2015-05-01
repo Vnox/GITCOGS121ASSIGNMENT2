@@ -1,5 +1,12 @@
 
 
+	
+
+<script src="js/myc3js.js"></script>
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -43,20 +50,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Hey, {{user.name}} You've successfully logged in !</h2>
+                    <h2 class="section-heading">The C3JS Visualization</h2>
                     <hr class="light">
-                    <p class="text-faded">Your instagram ID is {{user.ig_id}} , Welcome.          
-						Please choose from options below to start your wonderful journey. And you can always go back to this page to try a new one.</p>
-                    <a href="/c3visualization" class="btn btn-default btn-xl">The Given C3JS Visualization</a>
-						<br/>
-						<br/>
-					<a href="/visualization" class="btn btn-default btn-xl">The Given D3JS Visualiazation</a>
-						<br/>
-						<br/>
-					<a href="/myd3js" class="btn btn-default btn-xl">My D3JS Visualization</a>
-						<br/>
-						<br/>
-					<a href="/myc3js" class="btn btn-default btn-xl">My C3JS Visualization</a>
+                    <p class="text-faded">This is our C3JS data visualization. You can click on 3 different datasets to view those graphs - 1. The followes of your following.
+                        2. Their following count. 3. Their media count.
+                    </p>
+                    <p id='chart'></p>
                 </div>
             </div>
         </div>
