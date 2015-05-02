@@ -16,8 +16,17 @@ var xAxis = d3.svg.axis()
   .orient("bottom");
 
 var yAxis = d3.svg.axis()
-  .scale(scaleY) 
+  .scale(scaleY)
   .orient("left");
+
+ var controls = d3.select("body")
+                 .append('div')
+                 .attr("id", "controls");
+
+var sort_btn = controls.append("button")
+                .html("click to sort data")
+                .attr("state",0);
+
 
 //create svg
 var svg = d3.select("body").append("svg")
@@ -28,6 +37,8 @@ var svg = d3.select("body").append("svg")
 
 //get json object which contains media counts
 d3.json('/igMediaCounts', function(error, data) {
+  
+ 
   //set domain of x to be all the usernames contained in the data
   scaleX.domain(data.users.map(function(d) { return d.username; }));
   //set domain of y to be from 0 to the maximum media count returned
@@ -57,8 +68,7 @@ d3.json('/igMediaCounts', function(error, data) {
     .style("text-anchor", "end")
     .text("Number of Photos");
 
-  //set up bars in bar graph
-  svg.selectAll(".bar")
+ svg.selectAll(".bar")
     .data(data.users)
     .enter().append("rect")
     .attr("class", "bar")
@@ -66,4 +76,36 @@ d3.json('/igMediaCounts', function(error, data) {
     .attr("width", scaleX.rangeBand())
     .attr("y", function(d) { return scaleY(d.counts.media); })
     .attr("height", function(d) { return height - scaleY(d.counts.media); });
-});
+    
+
+  var counts = data.users.map(function(d) { return d.counts.media;});
+
+  sort_btn.on("click", function(){
+    var self = d3.select(this);
+  
+ 
+      var x0 = scaleX.domain(data.users.sort(
+                                function(a, b){return  a.counts.media - b.counts.media})
+                .map(function(d){return d.username;}))
+                .copy();
+
+      var transition = svg.transition().duration(750);
+      delay = function(d, i) { return i * 60; };
+
+      transition.selectAll(".bar")
+      .delay(delay)
+      .attr("x", function(d) { return x0(d.username); });
+
+      transition.select(".x.axis")
+                .call(xAxis)
+                .selectAll("g")
+                .selectAll("text")  
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", function(d) {
+                  return "rotate(-65)" 
+                })
+                .delay(delay);
+   })
+ });
